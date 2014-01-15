@@ -1,0 +1,153 @@
+Automata, Version 5.0
+=====================
+
+
+Title:          `Automata'
+
+Version:        5.1
+
+Description:    A Mathematica package that generates and manipulates
+                finite state machines and their syntactic semigroups.
+                Also contains applications to linear cellular automata.
+
+Author:         Klaus Sutner
+                sutner@cs.cmu.edu
+
+Maintained-by:  Klaus Sutner
+
+Maintained-at:  www.cs.cmu.edu/~sutner
+
+
+Platforms:      Requires Mathematica version 5.0.
+
+Copying-Policy: The package may be freely redistributed for noncommercial
+                purposes provided that no changes are made and that this
+                notice is included.
+
+Keywords:       Finite state machines, syntactic semigroups,
+                linear cellular automata.
+
+
+
+
+Installation
+------------
+
+Automata is distributed as a Mathematica add-on.  Unpack the tar
+file and copy the 'Automata' subdirectory into the 'Applications'
+directory of your Mathematica installation.
+
+If you do not know where this directory is, start Mathematica and check 
+the value of 
+
+	$UserBaseDirectory
+
+This directory should contain a subdirectory 'Applications' (if not, 
+you can simply create one).  Note that you may have to physically copy 
+the files; on MacIntosh systems symbolic links may fail.
+
+
+NOTE:
+You must run the command "Rebuild Help Index" from the "Help" menu 
+after installing the package in the appropriate place to make the browser 
+extensions available.
+
+
+
+Loading Automata
+----------------
+
+Once you have properly installed the Analytica add-on you can launch 
+the system by typing 
+
+	Needs["Automata`automata`"]
+
+in a Mathematica session.  The package comes with a collection of
+relatively unreliable and undocumented macros that can be loaded by
+
+	Get["Automata`experimental`"]
+	Get["Automata`formatre`"]
+
+There is no guarantee that these functions will persist in future 
+releases, make sure to keep a copy if you use them in your own code.
+
+To get warning messages for commands that have been eliminated since 
+version 4.6 load 
+
+	Get["Automata`obsolete`"]
+
+Note that the arguments and/or behavior of some commands have changed 
+slightly, consult the help browser for details.
+
+
+Documentation
+-------------
+
+All the commands in the package are documented in the help browser,
+most of them with illustrative examples of usage.  A more systematic
+and application oriented discussion can be found in a number of
+notebooks that are also accessible from the browser.  If you wish to
+permanently edit these notebooks make copies outside of the help
+browser.  
+
+
+External Code
+-------------
+
+The external code requires a number of tools, notably:
+
+  - a C/C++ compiler
+  - Bison
+  - make 
+  - the gmp library
+
+The current version has been tested under RedHat 8/9 and can be
+expected to be easily compiled in any Unix environment (right).  
+The following versions are known to work.
+
+  g++/gcc			3.2
+  bison 			1.35
+  gmp				4.1.2
+  MLMATHVERSION  		5.0.0
+
+
+You have to edit three paths in the makefile:
+
+  BINDIR = /home/sutner/Bin
+  EXTBINDIR = /home/sutner/.Mathematica/Applications/Automata/
+  MLDIR = /usr/local/.../MathLink/DeveloperKit/Linux/CompilerAdditions
+
+other than that you should only have to do a 'make all'. 
+
+A listing of all the external commands 
+
+
+Limitations
+-----------
+
+The parser is a quick hack and needs to be rewritten from scratch. 
+It has very little error handling so that the link may well break if 
+an attempt is made to type directly at the parser (rather than relying
+on the wrapper functions in the package). 
+
+Memory management is currently poor. 
+
+There is no way to gracefully interrupt the external code from Mathematica. 
+
+The UList data structure (nested lists with urelements) is unnecessarily 
+bloated and should be rewritten.
+
+The output of the internal and external code may differ slightly (e.g.,
+a list representing a set may be in a different order). 
+
+There is no manual for the external code (though the examples should 
+explain a great deal).
+
+Some data structures and/or algorithms are yet unimplemented.  As as
+consequence, the performance of the algorithms is bad in some cases.
+E.g., the semigroup generator uses k-ary tries. This is fast for small
+values of k, but catastrophic for large ones.  There is a very fast
+algorithm to determine the size of the power automaton of a
+nondeterministic machine of up to 16 states, but for larger machines
+the standard determinization algorithm is used.
+
